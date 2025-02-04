@@ -1,0 +1,34 @@
+Transaction_ID,Transaction_Date,Transaction_Time,Sender_ID,Receiver_ID,Transaction_Mode,Amount_Transferred,Currency_Type,Transaction_Status,Payment_Method,Region,Vendor,Expense_Category
+1,2024-11-15,21:0:3,ACC735206,ACC737959,Withdrawal,1836.78,USD,Completed,Branch,Tokyo,N/A,N/A
+2,2025-01-19,22:55:3,ACC193855,ACC180402,Refund,2616.5,INR,Pending,Online,New York,Apple,Shopping
+3,2025-01-16,17:11:40,ACC144998,ACC735657,Payment,4401.71,EUR,Failed,ATM,Mumbai,Amazon,Bills
+4,2024-11-20,4:56:59,ACC330281,ACC216646,Withdrawal,905.66,USD,Completed,Branch,London,N/A,N/A
+5,2025-01-15,18:34:31,ACC605938,ACC459623,Refund,3080.17,INR,Failed,POS,London,Walmart,Travel
+6,2024-12-04,22:56:35,ACC596399,ACC678744,Deposit,4260.16,GBP,Completed,Branch,Tokyo,N/A,N/A
+7,2024-11-27,9:32:34,ACC776619,ACC224994,Transfer,5462.02,EUR,Pending,Branch,Mumbai,N/A,N/A
+8,2024-11-27,16:24:6,ACC403857,ACC910143,Deposit,3968.97,EUR,Failed,Online,London,N/A,N/A
+9,2024-12-14,4:35:9,ACC574330,ACC449677,Withdrawal,2026.78,USD,Completed,POS,London,N/A,N/A
+10,2025-01-02,15:13:3,ACC706993,ACC180333,Refund,4156.32,JPY,Completed,ATM,New York,Netflix,Food
+11,2025-01-29,11:34:33,ACC248792,ACC726823,Transfer,2197.93,GBP,Completed,Online,London,N/A,N/A
+12,2024-10-30,6:48:48,ACC437690,ACC460366,Payment,235.26,USD,Completed,Mobile,Tokyo,Walmart,Investment
+13,2024-11-30,5:20:21,ACC769008,ACC230451,Refund,1633.38,JPY,Pending,ATM,Tokyo,Amazon,Investment
+14,2024-11-12,23:42:43,ACC369836,ACC328472,Withdrawal,3177.49,GBP,Pending,Branch,New York,N/A,N/A
+15,2024-11-20,14:40:7,ACC369029,ACC636441,Transfer,3219.73,EUR,Failed,Online,New York,N/A,N/A
+16,2025-02-02,17:0:10,ACC411228,ACC288787,Payment,1098.17,GBP,Completed,Online,New York,Starbucks,Bills
+17,2024-12-22,3:10:55,ACC355665,ACC791864,Withdrawal,3728.55,JPY,Failed,Online,Berlin,N/A,N/A
+18,2024-12-26,8:55:41,ACC901632,ACC353065,Payment,4933.93,INR,Pending,ATM,New York,Apple,Travel
+19,2024-12-13,13:31:2,ACC735937,ACC235961,Withdrawal,1238.79,EUR,Failed,POS,Tokyo,N/A,N/A
+20,2024-11-07,15:17:14,ACC600177,ACC513573,Deposit,123.86,USD,Failed,Online,New York,N/A,N/A
+21,2024-11-06,2:22:12,ACC247923,ACC352486,Payment,1820.7,INR,Completed,Mobile,New York,PayPal,Shopping
+22,2025-01-13,13:47:12,ACC814202,ACC999642,Payment,442.75,EUR,Failed,Branch,Mumbai,Amazon,Travel
+23,2024-11-08,3:6:34,ACC903026,ACC728944,Refund,4192.55,GBP,Completed,POS,Tokyo,Starbucks,Investment
+24,2025-01-09,1:2:49,ACC848175,ACC925621,Refund,3578.86,JPY,Pending,ATM,New York,Netflix,Investment
+25,2024-11-26,4:12:18,ACC268482,ACC336717,Transfer,916.77,GBP,Pending,Mobile,Tokyo,N/A,N/A
+26,2024-11-13,11:10:48,ACC711700,ACC400798,Refund,164.29,EUR,Pending,Mobile,Mumbai,PayPal,Food
+27,2025-01-02,12:44:52,ACC148089,ACC855673,Withdrawal,4882.01,USD,Pending,Branch,New York,N/A,N/A
+28,2024-12-24,8:53:14,ACC179938,ACC637367,Refund,1232.1,GBP,Failed,Online,Tokyo,Google,Travel
+29,2024-11-07,15:47:8,ACC183582,ACC968257,Withdrawal,1510.3,JPY,Completed,POS,Tokyo,N/A,N/A
+30,2025-01-28,21:1:49,ACC447631,ACC152926,Withdrawal,5622.95,INR,Completed,Branch,Tokyo,N/A,N/A
+31,2024-12-31,20:9:41,ACC496476,ACC230906,Transfer,488.23,GBP,Completed,POS,London,N/A,N/A
+32,2024-11-01,9:15:7,ACC269371,ACC403111,Withdrawal,1632.58,GBP,Pending,Mobile,Berlin,N/A,N/A
+33,2024-11-06,8:33:50,ACC337362,ACC407803,Refund,1759.26,JPY,Failed,Online,Tokyo,Netflix,Bills
