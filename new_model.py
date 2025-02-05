@@ -48,22 +48,31 @@ def load_models():
 
 # Helper function to classify numeric columns based on length and type
 def classify_numeric_column_with_length(column_values):
+    """
+    Classifies a column as numeric or non-numeric, and checks the length of values for numeric columns.
+    """
     column_values = column_values.dropna().astype(str)
+    
+    # Check if the column contains mostly numeric values
     if column_values.apply(lambda x: x.isdigit()).sum() < 0.8 * len(column_values):
-        return "non-numeric"
+        return "non-numeric", None
 
+    # Check if the column is a date column
+    if pd.to_datetime(column_values, errors="coerce").notnull().sum() > 0.8 * len(column_values):
+        return "date", None
+
+    # If numeric, classify based on length of values
     lengths = column_values.apply(len)
     avg_length = lengths.mean()
     max_length = lengths.max()
 
-    if pd.to_datetime(column_values, errors="coerce").notnull().sum() > 0.8 * len(column_values):
-        return "date"
-    elif avg_length <= 2 and max_length <= 3:
-        return "short-numeric"  # Likely age, month, etc.
+    if avg_length <= 2 and max_length <= 3:
+        return "short-numeric", None  # Likely age, month, etc.
     elif avg_length >= 5 and max_length >= 7:
-        return "long-numeric"  # Likely product IDs, postal codes, etc.
+        return "long-numeric", None  # Likely product IDs, postal codes, etc.
     else:
-        return "medium-numeric"  # Continuous values like salary, measurements, etc.
+        return "medium-numeric", (avg_length, max_length)  # Continuous values like salary, measurements, etc.
+
 
 # Function to check if the dataset is transposed
 def is_transposed(df):
@@ -165,39 +174,55 @@ def calculate_similarity_sentence_transformer(emb1, emb2):
 # Match computation with type-based penalty and exact match handling
 def get_top_matches_for_each_column(target_df, source_df, target_embeddings, source_embeddings):
     all_matches = []
+    # Group matches by source columns
+    source_groups = {}
 
     for target_col in target_df.columns:
-        target_type = classify_numeric_column_with_length(target_df[target_col])
-        column_matches = []
-
+        target_type, target_length = classify_numeric_column_with_length(target_df[target_col])  # Unpack correctly
         for source_col in source_df.columns:
-            source_type = classify_numeric_column_with_length(source_df[source_col])
+            source_type, source_length = classify_numeric_column_with_length(source_df[source_col])  # Unpack correctly
 
-            # Exact match check (ignore case)
+            # Exact match check (ignoring case)
             if target_col.lower() == source_col.lower():
                 weighted_score = 100.0
             else:
-                fuzzy_score = calculate_similarity_fuzzy(target_col, source_col) / 100
+                fuzzy_score = calculate_similarity_fuzzy(target_col, source_col)
                 spacy_score = calculate_similarity_spacy(target_col, source_col)
                 bert_score = calculate_similarity_bert(target_embeddings[target_col], source_embeddings[source_col])
                 sentence_score = calculate_similarity_sentence_transformer(target_embeddings[target_col], source_embeddings[source_col])
 
-                # Adjust scores based on column type and length
-                if target_type == source_type:
-                    weighted_score = (0.4 * max(spacy_score, fuzzy_score) + 0.3 * bert_score + 0.3 * sentence_score) * 100
+                # Apply the normal matching if columns are not numeric
+                if target_type == 'numeric' and source_type == 'numeric':
+                    # Apply penalization logic for numeric columns
+                    if target_length == source_length:
+                        weighted_score = (0.4 * max(spacy_score, fuzzy_score) + 0.3 * bert_score + 0.3 * sentence_score) * 100
+                    else:
+                        weighted_score = 0.2 * max(spacy_score, fuzzy_score) * 100
                 else:
-                    weighted_score = 0.2 * max(spacy_score, fuzzy_score)  # Penalize mismatched types
+                    # Apply normal matching for non-numeric columns
+                    weighted_score = (0.4 * max(spacy_score, fuzzy_score) + 0.3 * bert_score + 0.3 * sentence_score) * 100
 
-            column_matches.append({
+            # Create a match entry
+            match_entry = {
                 "Target Column": target_col,
                 "Source Column": source_col,
                 "Target Type": target_type,
                 "Source Type": source_type,
                 "Weighted Average Score": round(weighted_score, 2)
-            })
+            }
 
-        column_matches = sorted(column_matches, key=lambda x: x["Weighted Average Score"], reverse=True)
-        all_matches.extend(column_matches)
+            # Group matches by source columns
+            if source_col not in source_groups:
+                source_groups[source_col] = []
+            source_groups[source_col].append(match_entry)
+
+    # Sort matches by weighted score for each source column
+    for source_col in source_groups:
+        source_groups[source_col] = sorted(source_groups[source_col], key=lambda x: x["Weighted Average Score"], reverse=True)
+
+    # Flatten the matches into a single list (sorted by source column and match score)
+    for source_col, matches in source_groups.items():
+        all_matches.extend(matches)
 
     return all_matches
 
